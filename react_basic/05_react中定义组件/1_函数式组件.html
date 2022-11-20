@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--准备好一个容器-->
+    <div id="test"></div>
+
+    <!--引入react核心库，必须最先引入-->
+    <script type="text/javascript" src="../js/react.js"></script>
+    <!--引入react-dom，用于支持react操作DOM-->
+    <script type="text/javascript" src="../js/react-dom.js"></script>
+    <!--引入babel，用于将jsx转为js-->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 1.创建函数式组件
+        function MyComponent() {
+            console.log(this)// undefined。因为babel在把这个函数的JSX形式翻译成JS后，会开启严格模式，严格模式最大的特点就是禁止自定义函数里的this指向window，就变成了undefined
+            return <h2>我是用函数定义的组件（适用于【简单组件】的定义）</h2>
+        }
+        // 这个函数不用我们亲自调用，但它有被调用，是react帮我们调的，我们只需要定义组件并写好组件标签
+        // 2.渲染组件到页面
+        ReactDOM.render(<MyComponent/>, document.getElementById('test'))
+        /*
+         执行了这条代码后，发生了什么？
+            1.React解析组件标签，找到了MyComponent组件
+            2.发现组件是使用函数定义的，随后调用该函数，将返回的虚拟DOM转为真实DOM，随后呈现在页面中
+        */
+    </script>
+</body>
+</html>
