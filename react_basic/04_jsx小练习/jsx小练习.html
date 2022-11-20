@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--准备好一个容器-->
+    <div id="test"></div>
+
+    <!--引入react核心库，必须最先引入-->
+    <script type="text/javascript" src="../js/react.js"></script>
+    <!--引入react-dom，用于支持react操作DOM-->
+    <script type="text/javascript" src="../js/react-dom.js"></script>
+    <!--引入babel，用于将jsx转为js-->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        // 模拟一些服务器发送过来的数据
+        const data = ['Angular', 'React', 'Vue']
+        const data2 = [<li>Angular</li>, <li>React</li>, <li>Vue</li>]// 如果给react传了一个数组，react会自动帮你遍历这个数组，数组里有什么就往页面里放什么
+        const obj = {name1:'Angular', name2:'React', name3:'Vue'}// 如果给react传对象，那浏览器展示不出来东西并报错
+        // 1.创建虚拟DOM
+        const VDOM = (
+            <div>
+                <h1>前端js框架列表</h1>
+                <ul>
+                    {
+                        data.map((item, index) => {
+                            return <li key={index}>{item}</li>
+                            // 为什么每个li都要有唯一的key属性？因为key是虚拟DOM的唯一标识，Diffing算法就靠key
+                        })
+                    }
+                </ul>
+            </div>
+        )
+        // 2.渲染虚拟DOM到页面
+        ReactDOM.render(VDOM, document.getElementById('test'))
+    </script>
+</body>
+</html>
