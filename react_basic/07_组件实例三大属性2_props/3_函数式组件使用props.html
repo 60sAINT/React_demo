@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--准备好容器-->
+    <div id="test1"></div>
+
+    <!--引入react核心库，必须最先引入，从此全局多了一个React对象-->
+    <script type="text/javascript" src="../js/react.js"></script>
+    <!--引入react-dom，用于支持react操作DOM，从此全局多了一个ReactDOM对象-->
+    <script type="text/javascript" src="../js/react-dom.js"></script>
+    <!--引入babel，用于将jsx转为js-->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <!--引入prop-types，用于对组件标签属性进行限制，从此全局多了一个PropTypes对象-->
+    <script type="text/javascript" src="../js/prop-types.js"></script>
+
+    <script type="text/babel">
+        
+        function Person(props) {
+            const {name, age, sex} = props
+            return (
+                <ul>
+                    <li>姓名：{name}</li>
+                    <li>性别：{sex}</li>
+                    <li>年龄：{age}</li>
+                </ul>
+            )
+        }
+        Person.propTypes = {
+            name:PropTypes.string.isRequired,// .isRequired表示name是必填项
+            sex:PropTypes.string,
+            age:PropTypes.number,
+        }
+
+        Person.defaultProps = {
+            sex:'男',
+            age:18
+        }
+        // 渲染组件页面
+        ReactDOM.render(<Person name="jerry" />, document.getElementById('test1'))
+        
+    </script>
+</body>
+</html>
