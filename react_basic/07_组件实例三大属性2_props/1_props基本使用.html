@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--准备好容器-->
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+
+    <!--引入react核心库，必须最先引入，从此全局多了一个React对象-->
+    <script type="text/javascript" src="../js/react.js"></script>
+    <!--引入react-dom，用于支持react操作DOM，从此全局多了一个ReactDOM对象-->
+    <script type="text/javascript" src="../js/react-dom.js"></script>
+    <!--引入babel，用于将jsx转为js-->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <!--引入prop-types，用于对组件标签属性进行限制，从此全局多了一个PropTypes对象-->
+    <script type="text/javascript" src="../js/prop-types.js"></script>
+
+    <script type="text/babel">
+        // 创建组件
+        class Person extends React.Component {
+            render() {
+                const {name, age, sex} = this.props// 解构赋值的方式提前从props身上拿到name, age和sex
+                // props是只读的，组件标签传进来什么，props里对应的就是什么
+                //this.props.name='jack'// 会报错
+                return (
+                    <ul>
+                        <li>姓名：{name}</li>
+                        <li>性别：{sex}</li>
+                        <li>年龄：{age+1}</li>
+                    </ul>
+                )
+            }
+        }
+        // 给组件类添加一个属性，在里边对标签属性进行类型、必要性的限制
+        Person.propTypes = {
+            name:PropTypes.string.isRequired,// .isRequired表示name是必填项
+            sex:PropTypes.string,
+            age:PropTypes.number,
+            speak:PropTypes.func,
+        }
+        // 给标签属性默认值
+        Person.defaultProps = {
+            sex:'不男不女',
+            age:18
+        }
+        // 渲染组件页面
+        ReactDOM.render(<Person name="jerry" speak={speak} />, document.getElementById('test1'))
+        ReactDOM.render(<Person name="tom" age={18} sex="女" />, document.getElementById('test2'))
+        const p = {name:'老刘', age:18, sex:'女'}
+        ReactDOM.render(<Person {...p}/>, document.getElementById('test3'))
+        // 组件标签后边的key-value会全部放到组件实例对象的props属性中
+        // 与原生js不同，这里的{...p}不是复制对象
+        console.log('@', ...p);// 打印出来@符后没东西。babel+react可以让展开运算符展开一个对象，但不能随意地使用，它仅适用于标签属性的传递
+
+        function speak() {
+            console.log('我说话了');
+        }
+    </script>
+</body>
+</html>
