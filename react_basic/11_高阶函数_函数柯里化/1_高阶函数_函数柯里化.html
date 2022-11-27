@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--准备好一个容器-->
+    <div id="test"></div>
+
+    <!--引入react核心库，必须最先引入-->
+    <script type="text/javascript" src="../js/react.js"></script>
+    <!--引入react-dom，用于支持react操作DOM-->
+    <script type="text/javascript" src="../js/react-dom.js"></script>
+    <!--引入babel，用于将jsx转为js-->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        //#region
+        /*
+            高阶函数：如果一个函数符合下面2个规范中的任何一个，那么函数就是高阶函数
+                1.若A函数，接收的参数是一个函数，那么A 就可以称之为高阶函数
+                2.若A函数，调用的返回值依然是一个函数，那么A就可以称之为高阶函数
+                常见的高阶函数有：Promise、setTimeout、arr.map()等等
+
+            函数的柯里化：通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式
+            function sum(a) {
+                return (b) => {
+                    return (c) => {
+                        return a+b+c;
+                    }
+                }
+            }
+        */
+       //#endregion
+       new Promise(() => {})
+       setTimeout(() => {
+
+       })
+        // 创建组件
+        class Login extends React.Component {
+            // 初始化状态
+            state = {
+                username:'',
+                password:''
+            }
+
+            // 保存表单数据到状态中
+            saveFormData = (dataType) => {
+                return (event) => {
+                    this.setState({[dataType]:event.target.value});
+                    // 中括号是取变量值的意思。如果不写，那state的键就是dataType，而不是username或password
+                }
+            }
+
+            // 表单提交的回调
+            handleSubmit = (event) => {
+                event.preventDefault()// 阻止表单提交，之后靠ajax进行交互
+                const {username,password} = this.state;
+                alert(`你输入的用户名是：${username}，你输入的密码是：${password}`);
+            }
+            render() {
+                return (
+                    // 表单action属性的值是表单要提交到的地址，这里不写，因为提交后不通过表单方式提交，而通过ajax与后台交互
+                    <form onSubmit={this.handleSubmit}>
+                        {/*onChange事件在input框内容改变时触发*/}
+                        用户名：<input onChange={this.saveFormData('username')} type="text" name="username"/>
+                        {/*onChange等号右边花括号内的内容作为onChange事件的回调，这里的回调函数是saveFormData的返回值，不是saveFormData函数本身。注意：事件的回调函数默认传入参数event事件*/}
+                        密码：<input onChange={this.saveFormData('password')} type="password" name="password"/>
+                        <button>登录</button>
+                    </form>
+                )
+            }
+
+        }
+        // 渲染组件到页面
+        ReactDOM.render(<Login />, document.getElementById('test'))
+    </script>
+</body>
+</html>
