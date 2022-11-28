@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--准备好一个容器-->
+    <div id="test"></div>
+
+    <!--引入react核心库，必须最先引入-->
+    <script type="text/javascript" src="../js/react.js"></script>
+    <!--引入react-dom，用于支持react操作DOM-->
+    <script type="text/javascript" src="../js/react-dom.js"></script>
+    <!--引入babel，用于将jsx转为js-->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Time extends React.Component {
+            state = {date: new Date()}
+
+            componentDidMount () {
+                setInterval(() => {
+                    this.setState({date: new Date()})
+                }, 1000)
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h1>hello</h1>
+                        <input type="text"/>{/*这个输入框可以验证h1标签和input标签的真实DOM没有更新，即Diffing算法存在，只有span标签的真实DOM在不断更新，否则该输入框里的内容也会每隔1s就清空*/}
+                        <span>
+                            现在是：{this.state.date.toTimeString()}
+                            <input type="text"/>{/*这个输入框也不会被清空，即这个真实DOM也不会更新，因为Diffing算法会对比多层*/}
+                        </span>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Time/>, document.getElementById('test'))
+    </script>
+</body>
+</html>
